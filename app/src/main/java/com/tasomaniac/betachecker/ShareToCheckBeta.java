@@ -1,8 +1,6 @@
 package com.tasomaniac.betachecker;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,7 +18,7 @@ public class ShareToCheckBeta extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final ShareCompat.IntentReader reader = ShareCompat.IntentReader.from(this);
-        String appId = extractPlayIdFrom(getIntent(), reader);
+        String appId = extractPlayIdFrom(reader);
 
         if (appId == null) {
             Toast.makeText(this, R.string.error_invalid_url, Toast.LENGTH_SHORT).show();
@@ -35,17 +33,8 @@ public class ShareToCheckBeta extends Activity {
         finish();
     }
 
-    private static String extractPlayIdFrom(Intent intent, ShareCompat.IntentReader reader) {
-        CharSequence text = reader.getText();
-        if (text == null) {
-            text = getExtraSelectedText(intent);
-        }
-        return findPlayAppId(text);
-    }
-
-    @SuppressLint("InlinedApi")
-    private static CharSequence getExtraSelectedText(Intent intent) {
-        return intent.getCharSequenceExtra(Intent.EXTRA_PROCESS_TEXT);
+    private static String extractPlayIdFrom(ShareCompat.IntentReader reader) {
+        return findPlayAppId(reader.getText());
     }
 
     @Nullable
