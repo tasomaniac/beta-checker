@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.github.triplet.play'
-apply plugin: 'io.fabric'
 
 Properties local_properties = new Properties()
 File localPropertiesFile = project.rootProject.file('local.properties')
@@ -57,7 +56,6 @@ android {
         textOutput 'stdout'
 
         fatal 'UnusedResources'
-        warning 'InvalidPackage'
     }
 }
 
@@ -69,19 +67,8 @@ play {
 
 dependencies {
     def supportLibVersion = "24.2.1"
-    def butterKnifeVersion = '8.2.1'
 
     compile "com.android.support:customtabs:$supportLibVersion"
-//    compile "com.android.support:appcompat-v7:$supportLibVersion"
-//    compile "com.android.support:recyclerview-v7:$supportLibVersion"
-//    compile "com.android.support:design:$supportLibVersion"
-//    compile "com.android.support:preference-v14:$supportLibVersion"
-
-//    compile "com.jakewharton:butterknife:$butterKnifeVersion"
-//    apt "com.jakewharton:butterknife-compiler:$butterKnifeVersion"
-    compile 'com.jakewharton.timber:timber:4.3.0'
-
-    compile 'com.crashlytics.sdk.android:crashlytics:2.6.2'
 
     testCompile 'junit:junit:4.12'
 }
