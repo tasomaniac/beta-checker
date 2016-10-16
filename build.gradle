@@ -26,7 +26,7 @@ ext {
     ci = "true".equals(System.getenv("CI"))
 
     versionMajor = 1
-    versionMinor = 0
+    versionMinor = 1
     versionBuild = 0
 
     versionCode = versionMajor * 100 + versionMinor * 10 + versionBuild
