@@ -1,46 +1,39 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'com.novoda.android-command'
+apply plugin: 'com.novoda.build-properties'
 apply plugin: 'com.github.triplet.play'
 
-Properties local_properties = new Properties()
-File localPropertiesFile = project.rootProject.file('local.properties')
-if (localPropertiesFile.exists()) {
-    local_properties.load(localPropertiesFile.newDataInputStream())
+def signingFile = file('props/release.signing')
+buildProperties {
+    signing.file signingFile.exists() ? signingFile : file('props/debug.signing')
+    secrets.file file('props/secrets.properties')
 }
 
+def secrets = buildProperties.secrets
+
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion versions.compileSdk
 
     defaultConfig {
         applicationId "com.tasomaniac.betachecker"
-        minSdkVersion 15
-        targetSdkVersion rootProject.ext.compileSdkVersion
-        versionCode rootProject.ext.versionCode
-        versionName rootProject.ext.versionName
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.compileSdk
+        versionCode versions.versionCode
+        versionName versions.versionName
 
         resConfigs "en"
     }
-
     signingConfigs {
-        debug {
-            storeFile file("../distribution/debug.keystore")
-        }
-
-        release {
-            storeFile file("../distribution/" + (local_properties.release_keystore_name ?: "debug.keystore"))
-            keyAlias(local_properties.release_keystore_alias ?: "androiddebugkey")
-            storePassword(local_properties.release_keystore_pwd ?: "android")
-            keyPassword(local_properties.release_keystore_pwd2 ?: "android")
-        }
+        debug.storeFile file('props/debug.keystore')
+        release.signingConfigProperties buildProperties.signing
     }
 
     buildTypes {
         debug {
             ext.enableCrashlytics = false
-            applicationIdSuffix ".debug"
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-debug'
             signingConfig signingConfigs.debug
-            versionNameSuffix "-debug"
         }
 
         release {
@@ -51,24 +44,29 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     lintOptions {
         textReport true
         textOutput 'stdout'
 
-        fatal 'UnusedResources'
+        lintConfig file('props/lint.xml')
+        // We run a full lint analysis as build part in CI, so skip vital checks for assemble tasks.
+        checkReleaseBuilds false
     }
 }
 
 play {
-    serviceAccountEmail = local_properties.play_service_account ?: ''
-    pk12File = file("../distribution/" + (local_properties.play_key_file ?: 'no-file.p12'))
-    track = 'production'
+    serviceAccountEmail = secrets['play_service_account'].or('').string
+    pk12File = file(secrets['play_key_file'].or('no_file.p12').string)
+    track = 'alpha'
 }
 
 dependencies {
-    def supportLibVersion = "24.2.1"
-
-    compile "com.android.support:customtabs:$supportLibVersion"
+    compile "com.android.support:customtabs:$versions.supportLib"
 
     testCompile 'junit:junit:4.12'
 }

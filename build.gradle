@@ -1,15 +1,29 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
+    ext.ci = 'true' == System.getenv('CI')
+
+    def versionMajor = 1
+    def versionMinor = 1
+    def versionBuild = 0
+
+    ext.versions = [
+            compileSdk : 27,
+            minSdk     : 15,
+            versionCode: versionMajor * 10000 + versionMinor * 1000 + versionBuild,
+            versionName: "${versionMajor}.${versionMinor}",
+
+            supportLib : '27.0.2',
+    ]
+
     repositories {
+        google()
         jcenter()
-        maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.1'
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-        classpath 'com.github.ben-manes:gradle-versions-plugin:0.13.0'
-        classpath 'com.github.triplet.gradle:play-publisher:1.2.0-beta1'
+        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.novoda:gradle-android-command-plugin:1.7.1'
+        classpath 'com.novoda:build-properties-plugin:1.2.1'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.17.0'
+        classpath 'com.github.triplet.gradle:play-publisher:1.2.0'
     }
 }
 
@@ -17,25 +31,7 @@ apply plugin: 'com.github.ben-manes.versions'
 
 allprojects {
     repositories {
+        google()
         jcenter()
-        maven { url 'https://maven.fabric.io/public' }
     }
-}
-
-ext {
-    ci = "true".equals(System.getenv("CI"))
-
-    versionMajor = 1
-    versionMinor = 1
-    versionBuild = 0
-
-    versionCode = versionMajor * 100 + versionMinor * 10 + versionBuild
-    versionName = "${versionMajor}.${versionMinor}"
-
-    compileSdkVersion = 24
-    buildToolsVersion = '24.0.3'
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
 }

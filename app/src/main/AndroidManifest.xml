@@ -1,11 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.tasomaniac.betachecker">
+  xmlns:tools="http://schemas.android.com/tools"
+  package="com.tasomaniac.betachecker">
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:supportsRtl="true">
+        android:supportsRtl="true"
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
 
         <activity
             android:name=".ShareToCheckBeta"
