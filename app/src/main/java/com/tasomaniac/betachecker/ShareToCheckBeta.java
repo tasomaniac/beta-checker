@@ -1,6 +1,9 @@
 package com.tasomaniac.betachecker;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +12,7 @@ import android.support.v4.app.ShareCompat;
 import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,11 +30,34 @@ public class ShareToCheckBeta extends Activity {
             return;
         }
 
-        CustomTabsIntent intent = new CustomTabsIntent.Builder()
+        Intent intent = new CustomTabsIntent.Builder()
                 .setToolbarColor(ContextCompat.getColor(this, R.color.apps_primary))
-                .build();
-        intent.launchUrl(this, Uri.parse("https://play.google.com/apps/testing/" + appId));
+                .build()
+                .intent;
+        intent.setData(Uri.parse("https://play.google.com/apps/testing/" + appId));
+        intent.setPackage(findBestBrowserPackage());
+        startActivity(intent);
         finish();
+    }
+
+    @Nullable
+    private String findBestBrowserPackage() {
+        if (isPackageInstalled("com.android.chrome")) {
+            return "com.android.chrome";
+        }
+        List<ResolveInfo> browsers = queryBrowsers();
+        if (browsers.isEmpty()) {
+            return null;
+        }
+        return browsers.get(0).activityInfo.packageName;
+    }
+
+    private List<ResolveInfo> queryBrowsers() {
+        Intent browserIntent = new Intent()
+                .setAction(Intent.ACTION_VIEW)
+                .addCategory(Intent.CATEGORY_BROWSABLE)
+                .setData(Uri.parse("http:"));
+        return getPackageManager().queryIntentActivities(browserIntent, 0);
     }
 
     private static String extractPlayIdFrom(ShareCompat.IntentReader reader) {
@@ -48,5 +75,13 @@ public class ShareToCheckBeta extends Activity {
             return matcher.group(1);
         }
         return null;
+    }
+
+    public boolean isPackageInstalled(String packageName) {
+        try {
+            return getPackageManager().getApplicationInfo(packageName, 0).enabled;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
     }
 }
