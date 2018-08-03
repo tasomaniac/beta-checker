@@ -30,13 +30,13 @@ public class ShareToCheckBeta extends Activity {
             return;
         }
 
-        Intent intent = new CustomTabsIntent.Builder()
+        Intent i = new CustomTabsIntent.Builder()
                 .setToolbarColor(ContextCompat.getColor(this, R.color.apps_primary))
                 .build()
-                .intent;
-        intent.setData(Uri.parse("https://play.google.com/apps/testing/" + appId));
-        intent.setPackage(findBestBrowserPackage());
-        startActivity(intent);
+                .i;
+        i.setData(Uri.parse("https://play.google.com/apps/testing/" + appId));
+        i.setPackage(findBestBrowserPackage());
+        startActivity(i);
         finish();
     }
 
