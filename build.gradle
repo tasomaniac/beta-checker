@@ -7,6 +7,7 @@ buildscript {
 
     ext.versions = [
             compileSdk : 28,
+            buildTools : "28.0.1",
             minSdk     : 15,
             versionCode: versionMajor * 10000 + versionMinor * 1000 + versionBuild,
             versionName: "${versionMajor}.${versionMinor}",
