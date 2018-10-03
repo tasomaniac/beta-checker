@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:tools="http://schemas.android.com/tools"
-  package="com.tasomaniac.betachecker">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.tasomaniac.betachecker">
 
     <application
         android:allowBackup="true"
@@ -18,7 +18,8 @@
             android:label="@string/check_beta"
             android:relinquishTaskIdentity="true"
             android:theme="@style/Theme.Transparent.NoAnimation"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+            tools:targetApi="lollipop">
 
             <intent-filter android:label="@string/check_beta">
                 <action android:name="android.intent.action.SEND" />
@@ -29,5 +30,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>
