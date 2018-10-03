@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.novoda.android-command'
 apply plugin: 'com.novoda.build-properties'
+apply plugin: 'com.github.ben-manes.versions'
 apply plugin: 'com.github.triplet.play'
 
 def signingFile = file('props/release.signing')
@@ -13,7 +14,7 @@ def secrets = buildProperties.secrets
 
 android {
     compileSdkVersion versions.compileSdk
-    buildtoolsVersion versions.buildTools
+    buildToolsVersion versions.buildTools
     defaultConfig {
         applicationId "com.tasomaniac.betachecker"
         minSdkVersion versions.minSdk
@@ -30,6 +31,7 @@ android {
 
     buildTypes {
         debug {
+            zipAlignEnabled true
             ext.enableCrashlytics = false
             applicationIdSuffix '.debug'
             versionNameSuffix '-debug'
@@ -66,6 +68,6 @@ play {
 }
 
 dependencies {
-    implementation "com.android.support:customtabs:$versions.supportLib"
+    implementation "com.android.support:customtabs:${versions.supportLib}"
     testImplementation 'junit:junit:4.12'
 }
