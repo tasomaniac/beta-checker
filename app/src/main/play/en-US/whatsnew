@@ -1,3 +1,3 @@
 Fix for "setup a web browser app" error dialog.
 
-This error was shown by Play Store itself. These special beta sign-up links are not supported by native Play Store app. But they still catch and force to open in the native app and then show this error.
+This error was shown by the Play Store itself. These special beta sign-up links are not supported by the native Play Store app, but they still catch and force open in the native app (and consequently show this error).
