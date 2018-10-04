@@ -18,26 +18,19 @@ import java.util.regex.Pattern;
 
 public class ShareToCheckBeta extends Activity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        final ShareCompat.IntentReader reader = ShareCompat.IntentReader.from(this);
-        String appId = extractPlayIdFrom(reader);
-
-        if (appId == null) {
-            Toast.makeText(this, R.string.error_invalid_url, Toast.LENGTH_SHORT).show();
-            finish();
-            return;
+    @Nullable
+    private static String findPlayAppId(@Nullable CharSequence text) {
+        if (text == null) {
+            return null;
         }
-
-        Intent intent = new CustomTabsIntent.Builder()
-                .setToolbarColor(ContextCompat.getColor(this, R.color.apps_primary))
-                .build()
-                .intent;
-        intent.setData(Uri.parse("https://play.google.com/apps/testing/" + appId));
-        intent.setPackage(findBestBrowserPackage());
-        startActivity(intent);
-        finish();
+        final Matcher matcher = Pattern
+                .compile("https://play\\.google\\.com/store/apps/details\\?id=(.+)",
+                        Pattern.CASE_INSENSITIVE)
+                .matcher(text);
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+        return null;
     }
 
     @Nullable
@@ -64,17 +57,28 @@ public class ShareToCheckBeta extends Activity {
         return findPlayAppId(reader.getText());
     }
 
-    @Nullable
-    private static String findPlayAppId(@Nullable CharSequence text) {
-        if (text == null) {
-            return null;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        final ShareCompat.IntentReader reader = ShareCompat.IntentReader.from(this);
+        String appId = extractPlayIdFrom(reader);
+
+        if (appId == null) {
+            Toast.makeText(this,
+                    R.string.error_invalid_url,
+                    Toast.LENGTH_SHORT).show();
+            finish();
+            return;
         }
-        final Matcher matcher = Pattern.compile("https://play\\.google\\.com/store/apps/details\\?id=(.+)", Pattern.CASE_INSENSITIVE)
-                .matcher(text);
-        if (matcher.find()) {
-            return matcher.group(1);
-        }
-        return null;
+
+        Intent intent = new CustomTabsIntent.Builder()
+                .setToolbarColor(ContextCompat.getColor(this, R.color.apps_primary))
+                .build()
+                .intent;
+        intent.setData(Uri.parse("https://play.google.com/apps/testing/" + appId));
+        intent.setPackage(findBestBrowserPackage());
+        startActivity(intent);
+        finish();
     }
 
     public boolean isPackageInstalled(String packageName) {

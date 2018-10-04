@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Beta Checker</string>
-    <string name="check_beta">Check Beta</string>
+    <string name="check_beta">Check For Beta</string>
     <string name="error_invalid_url">Please share a Play Store application url</string>
 </resources>
