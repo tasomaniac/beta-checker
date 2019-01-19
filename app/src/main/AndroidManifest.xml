@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:tools="http://schemas.android.com/tools"
-  package="com.tasomaniac.betachecker">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.tasomaniac.betachecker">
 
     <application
         android:allowBackup="true"
@@ -29,5 +29,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

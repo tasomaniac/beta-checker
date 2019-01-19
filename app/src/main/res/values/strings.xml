@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Beta Checker</string>
     <string name="check_beta">Check Beta</string>
-    <string name="error_invalid_url">Please share a Play Store application url</string>
+    <string name="error_invalid_url">Please share a Play Store application URL</string>
 </resources>

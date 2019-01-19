@@ -3,17 +3,17 @@ apply plugin: 'com.novoda.android-command'
 apply plugin: 'com.novoda.build-properties'
 apply plugin: 'com.github.triplet.play'
 
-def signingFile = file('props/release.signing')
+def signingFile = file 'props/release.signing'
 buildProperties {
-    signing.file signingFile.exists() ? signingFile : file('props/debug.signing')
-    secrets.file file('props/secrets.properties')
+    signing.using signingFile.exists() ? signingFile : file('props/debug.signing')
+    secrets.using file('props/secrets.properties')
 }
 
 def secrets = buildProperties.secrets
 
 android {
     compileSdkVersion versions.compileSdk
-    buildtoolsVersion versions.buildTools
+    buildToolsVersion versions.buildTools
     defaultConfig {
         applicationId "com.tasomaniac.betachecker"
         minSdkVersion versions.minSdk
@@ -23,28 +23,23 @@ android {
 
         resConfigs "en"
     }
-    signingConfigs {
-        debug.storeFile file('props/debug.keystore')
-        release.signingConfigProperties buildProperties.signing
-    }
 
     buildTypes {
-        debug {
-            ext.enableCrashlytics = false
-            applicationIdSuffix '.debug'
-            versionNameSuffix '-debug'
-            signingConfig signingConfigs.debug
-        }
-
         release {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+//            signingConfig signingConfigs.release
+        }
+        debug {
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-debug'
+//            signingConfig signingConfigs.debug
         }
     }
 
     compileOptions {
+        encoding = 'UTF-8'
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -57,15 +52,29 @@ android {
         // We run a full lint analysis as build part in CI, so skip vital checks for assemble tasks.
         checkReleaseBuilds false
     }
+
+    signingConfigs.all { signingConfig ->
+        signingConfig.ext.from = { buildProperties ->
+            signingConfig.storeFile teamPropsFile(buildProperties['storeFile'].string)
+            signingConfig.storePassword buildProperties['storePassword'].string
+            signingConfig.keyAlias buildProperties['keyAlias'].string
+            signingConfig.keyPassword buildProperties['keyPassword'].string
+        }
+    }
+
+    signingConfigs {
+        debug.storeFile file('props/debug.keystore')
+        release.from signing
+    }
 }
 
 play {
     serviceAccountEmail = secrets['play_service_account'].or('').string
-    pk12File = file(secrets['play_key_file'].or('no_file.p12').string)
+    pk12File = file secrets['play_key_file'].or('no_file.p12').string
     track = 'alpha'
 }
 
 dependencies {
     implementation "com.android.support:customtabs:$versions.supportLib"
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13-beta-1'
 }

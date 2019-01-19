@@ -1,8 +1,8 @@
 .gradle
-/local.properties
+local.properties
 .DS_Store
-/build
-/captures
+build
+captures
 
 my-release-key.keystore
 tasomaniac.p12
@@ -13,14 +13,4 @@ secrets.properties
 *.iml
 *.ipr
 *.iws
-/.idea/*
-
-# IDEA/Android Studio Ignore exceptions
-!/.idea/vcs.xml
-!/.idea/fileTemplates/
-!/.idea/inspectionProfiles/
-!/.idea/scopes/
-!/.idea/codeStyleSettings.xml
-!/.idea/encodings.xml
-!/.idea/copyright/
-!/.idea/compiler.xml
+.idea
