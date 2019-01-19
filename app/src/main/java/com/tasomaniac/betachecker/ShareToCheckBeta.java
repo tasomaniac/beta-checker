@@ -1,6 +1,5 @@
 package com.tasomaniac.betachecker;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
@@ -10,13 +9,14 @@ import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsIntent.Builder;
 import android.support.v4.app.ShareCompat.IntentReader;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ShareToCheckBeta extends Activity {
+public class ShareToCheckBeta extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -76,5 +76,7 @@ play {
 
 dependencies {
     implementation "com.android.support:customtabs:$versions.supportLib"
+    implementation "com.android.support:appcompat-v7:$versions.supportLib"
+
     testImplementation 'junit:junit:4.13-beta-1'
 }
