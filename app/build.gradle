@@ -1,6 +1,12 @@
 apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
 apply plugin: 'com.novoda.android-command'
 apply plugin: 'com.novoda.build-properties'
+
+apply plugin: 'com.github.ben-manes.versions'
 apply plugin: 'com.github.triplet.play'
 
 def signingFile = file 'props/release.signing'
@@ -29,12 +35,13 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-//            signingConfig signingConfigs.release
+            signingConfig signingConfigs.release
         }
         debug {
+            zipAlignEnabled true
             applicationIdSuffix '.debug'
             versionNameSuffix '-debug'
-//            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.debug
         }
     }
 
@@ -75,6 +82,8 @@ play {
 }
 
 dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
     implementation 'androidx.annotation:annotation:1.0.1'
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
     implementation 'androidx.browser:browser:1.0.0'
