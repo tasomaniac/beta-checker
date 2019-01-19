@@ -11,9 +11,7 @@ buildscript {
                 buildTools : "28.0.3",
                 minSdk     : 15,
                 versionCode: versionMajor * 10000 + versionMinor * 1000 + versionBuild,
-                versionName: "$versionMajor.$versionMinor",
-
-                supportLib : '28.0.0',
+                versionName: "$versionMajor.$versionMinor"
         ]
     }
 

@@ -75,8 +75,8 @@ play {
 }
 
 dependencies {
-    implementation "com.android.support:customtabs:$versions.supportLib"
-    implementation "com.android.support:appcompat-v7:$versions.supportLib"
-
-    testImplementation 'junit:junit:4.13-beta-1'
+    implementation 'androidx.annotation:annotation:1.0.1'
+    implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
+    implementation 'androidx.browser:browser:1.0.0'
+    implementation 'androidx.core:core:1.1.0-alpha03'
 }

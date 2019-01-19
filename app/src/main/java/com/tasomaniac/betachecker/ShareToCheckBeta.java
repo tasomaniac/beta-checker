@@ -5,16 +5,17 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.customtabs.CustomTabsIntent.Builder;
-import android.support.v4.app.ShareCompat.IntentReader;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.browser.customtabs.CustomTabsIntent.Builder;
+import androidx.core.app.ShareCompat.IntentReader;
+import androidx.core.content.ContextCompat;
 
 public class ShareToCheckBeta extends AppCompatActivity {
 
